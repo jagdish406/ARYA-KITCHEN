@@ -1,0 +1,289 @@
+<div class="page-shell">
+  <header class="hero">
+    <div class="hero-brand">
+      <div class="brand-wrap">
+        <div class="hero-illustration" aria-hidden="true">
+          <span class="orb orb-one"></span>
+          <span class="orb orb-two"></span>
+          <span class="orb orb-three"></span>
+          <span class="leaf leaf-one"></span>
+          <span class="leaf leaf-two"></span>
+        </div>
+
+        <div class="brand-badge">
+          <div class="brand-mark">AK</div>
+          <div class="brand-copy">
+            <span>ARYA'S</span>
+            <small>KITCHEN</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="tagline-list" aria-label="Brand highlights">
+        <span class="tagline-item"><span class="item-icon">🌿</span>Fresh</span>
+        <span class="tagline-item"><span class="item-icon">🧼</span>Hygienic</span>
+        <span class="tagline-item"><span class="item-icon">🏡</span>Homemade</span>
+        <span class="tagline-item"><span class="item-icon">✨</span>Delicious</span>
+      </div>
+
+      <div class="brand-quote" aria-label="Good Food Brings People Together">
+        <span class="quote-leaf quote-leaf-left" aria-hidden="true"></span>
+        <div class="quote-text">
+          <span>Good Food</span>
+          <span>Brings People Together</span>
+        </div>
+        <span class="quote-leaf quote-leaf-right" aria-hidden="true"></span>
+      </div>
+
+      <form class="order-form" (ngSubmit)="onOrderSubmit()">
+        <div class="order-header">Order Now</div>
+
+        <div class="field-row">
+          <label>
+            <span>Name</span>
+            <input type="text" [(ngModel)]="orderForm.name" name="name" placeholder="Your name" required />
+          </label>
+          <label>
+            <span>Flat No.</span>
+            <input type="text" [(ngModel)]="orderForm.flatNo" name="flatNo" placeholder="A-204" required />
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label>
+            <span>Mobile</span>
+            <input type="tel" [(ngModel)]="orderForm.mobile" name="mobile" placeholder="9876543210" required />
+          </label>
+          <label>
+            <span>Dish</span>
+            <input type="text" [(ngModel)]="orderForm.dish" name="dish" placeholder="Paneer Masala, Paratha..." required />
+          </label>
+        </div>
+
+        <div class="field-row">
+          <label>
+            <span>Day</span>
+            <select [(ngModel)]="orderForm.day" name="day">
+              @for (day of weekDays; track day) {
+                <option [value]="day">{{ day }}</option>
+              }
+            </select>
+          </label>
+
+          <label>
+            <span>Menu</span>
+            <select [(ngModel)]="orderForm.menuType" name="menuType">
+              @for (menu of menuSizes; track menu) {
+                <option [value]="menu">{{ menu }}</option>
+              }
+            </select>
+          </label>
+        </div>
+
+        <label class="full-width">
+          <span>Delivery Time</span>
+          <select [(ngModel)]="orderForm.timeSlot" name="timeSlot">
+            @for (slot of orderTimeSlots; track slot) {
+              <option [value]="slot">{{ slot }}</option>
+            }
+          </select>
+        </label>
+      </form>
+    </div>
+
+    <div class="hero-actions">
+      <div class="rating-box">
+        <div class="stars" aria-label="5 star rating">★★★★★</div>
+        <div class="rating-score">{{ rating.toFixed(1) }}/5</div>
+        <div class="rating-meta"><strong>{{ reviewCount }}</strong> reviews</div>
+      </div>
+
+      <div class="cta-row">
+        <a class="cta whatsapp" [href]="whatsappLink" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="cta map" [href]="googleMapsLink" target="_blank" rel="noopener noreferrer">Google Map</a>
+      </div>
+
+      <div class="addon-box right-addon-box">
+        <div class="addon-title">Add-ons</div>
+        <div class="addon-list">
+          @for (item of addOns; track item.name) {
+            <div class="check-option">
+              <div class="addon-copy">
+                <span>{{ item.name }}</span>
+                <strong>₹{{ item.price }}</strong>
+              </div>
+
+              <div class="qty-controls">
+                <button type="button" class="qty-btn" (click)="changeAddOnQuantity(item.name, -1)" [attr.aria-label]="'Decrease ' + item.name">−</button>
+                <span class="qty-value">{{ getAddonQuantity(item.name) }}</span>
+                <button type="button" class="qty-btn" (click)="changeAddOnQuantity(item.name, 1)" [attr.aria-label]="'Increase ' + item.name">+</button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <button type="button" class="cta whatsapp order-submit" [disabled]="!isFormComplete" (click)="onOrderSubmit()">Send on WhatsApp</button>
+    </div>
+  </header>
+
+  <main class="menu-board">
+    <section class="panel tiffin-panel">
+      <div class="panel-title">Tiffin Menu</div>
+      <div class="tiffin-grid">
+        @for (item of tiffinOptions; track item.name) {
+          <article class="tiffin-card">
+            <h3>{{ item.name }}</h3>
+            <div class="price">{{ item.price }}</div>
+            <ul>
+              @for (entry of item.items; track entry) {
+                <li>{{ entry }}</li>
+              }
+            </ul>
+          </article>
+        }
+      </div>
+
+      <div class="package-block">
+        <div class="mini-title">Monthly Tiffin Packages</div>
+        <div class="package-list">
+          @for (pkg of monthlyPackages; track pkg.label) {
+            <div class="package-row">
+              <span>{{ pkg.label }}</span>
+              <span>{{ pkg.price }}</span>
+              <span>{{ pkg.detail }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="add-ons-block">
+        <div class="mini-title">Add-ons</div>
+        <div class="addons-grid">
+          @for (item of addOns; track item.name) {
+            <div class="addon-item">
+              <span>{{ item.name }}</span>
+              <span>{{ item.price }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="panel weekly-panel">
+      <div class="panel-title">Weekly Veg Tiffin Menu</div>
+      <div class="weekly-table">
+        <div class="table-head">
+          <span>Day</span>
+          <span>Price</span>
+          <span>Menu</span>
+        </div>
+        @for (day of weeklyMenu; track day.day) {
+          <div class="table-row">
+            <span>{{ day.day }}</span>
+            <span>{{ day.price }}</span>
+            <span>{{ day.menu }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </main>
+
+  <section class="special-panel">
+    <div class="special-header">
+      <span class="special-icon">🔥</span>
+      <span>NON VEG ITEMS</span>
+      <small>(Chicken / Mutton / Fish / Egg)</small>
+    </div>
+
+    <div class="special-grid">
+      @for (group of nonVegGroups; track group.title) {
+        <article class="special-card {{ group.accent }}">
+          <div class="card-heading">
+            <span class="card-icon" aria-hidden="true">{{ group.icon }}</span>
+            <h3>{{ group.title }}</h3>
+          </div>
+          <ul>
+            @for (item of group.items; track item.name) {
+              <li>
+                <span>{{ item.name }}</span>
+                <strong>{{ item.price }}</strong>
+              </li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="breakfast-panel">
+    <div class="panel-title">Breakfast Menu</div>
+    <div class="breakfast-grid">
+      @for (column of breakfastMenu; track $index) {
+        <div class="breakfast-column">
+          <div class="breakfast-column-header">
+            <span>{{ $index === 0 ? '🌞 Morning Specials' : '🥞 Hot Paratha Picks' }}</span>
+          </div>
+          @for (item of column; track item.name) {
+            <div class="breakfast-item">
+              <span>{{ item.name }}</span>
+              <strong>{{ item.price }}</strong>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="coffee-panel">
+    <div class="panel-title">Cold Coffee</div>
+    <div class="coffee-row">
+      <div class="coffee-card coffee-highlight">
+        <div class="coffee-header">
+          <span class="coffee-icon">☕</span>
+          <span>Signature Sips</span>
+        </div>
+        @for (coffee of coffeeOptions; track coffee.name) {
+          <div class="coffee-item">
+            <span>{{ coffee.name }}</span>
+            <strong>{{ coffee.price }}</strong>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <footer class="contact-bar">
+    <div class="contact-item address">
+      <div class="icon-badge">📍</div>
+      <div class="contact-copy">
+        <div class="label">Address</div>
+        <div class="value">Royal Residency Tower 1, Aimnabad, Bisrakh 201306</div>
+      </div>
+    </div>
+
+    <div class="contact-item phone">
+      <div class="icon-badge">📞</div>
+      <div class="contact-copy">
+        <div class="label">Mobile</div>
+        <div class="value">9811036266 / 8882484178</div>
+      </div>
+    </div>
+
+    <div class="contact-item prep-time">
+      <div class="icon-badge">⏱️</div>
+      <div class="contact-copy">
+        <div class="label">Preparation Time</div>
+        <div class="value">30 - 45 Min</div>
+      </div>
+    </div>
+
+    <div class="contact-item note">
+      <div class="icon-badge">✅</div>
+      <div class="contact-copy">
+        <div class="label">Note</div>
+        <div class="value">Foods are fresh and healthy. Order early for authentic taste.</div>
+      </div>
+    </div>
+  </footer>
+</div>
