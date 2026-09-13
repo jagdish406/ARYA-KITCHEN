@@ -134,7 +134,11 @@
         @for (item of tiffinOptions; track item.name) {
           <article class="tiffin-card">
             <h3>{{ item.name }}</h3>
-            <div class="price">{{ item.price }}</div>
+            <button type="button" class="package-btn" (click)="sendTiffinPackage(item)">
+              <span class="package-btn__icon">💬</span>
+              <span class="package-btn__text">Order</span>
+              <strong>{{ item.price }}</strong>
+            </button>
             <ul>
               @for (entry of item.items; track entry) {
                 <li>{{ entry }}</li>

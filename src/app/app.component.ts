@@ -105,6 +105,20 @@ export class AppComponent {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
+  sendTiffinPackage(item: { name: string; price: string; items: string[] }): void {
+    const message = [
+      'Hello Arya\'s Kitchen,',
+      'I would like to order this tiffin package.',
+      `Package: ${item.name}`,
+      `Price: ${item.price}`,
+      `Menu Details: ${item.items.join(' • ')}`,
+      'Please confirm the availability and delivery timing.'
+    ].join('\n');
+
+    const url = `https://wa.me/91${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
   readonly tiffinOptions = [
     { name: 'Mini Tiffin', price: '₹99', items: ['3 Roti', '1 Sabji', 'Dal', 'Chutney'] },
     { name: 'Regular Tiffin', price: '₹149', items: ['4 Roti', 'Dal', '1 Sabji', 'Rice', 'Salad & Chutney'] },

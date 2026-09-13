@@ -600,15 +600,49 @@ a {
   color: #3a1d13;
 }
 
-.price {
+.package-btn {
   align-self: center;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 170px;
   margin-bottom: 12px;
-  background: #0d5d35;
-  color: #fff;
+  border: none;
   border-radius: 999px;
-  padding: 6px 18px;
+  background: linear-gradient(135deg, #1cb75c 0%, #127d49 100%);
+  color: #fff;
+  padding: 10px 14px;
   font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(18, 125, 73, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.package-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 24px rgba(18, 125, 73, 0.28);
+}
+
+.package-btn__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  font-size: 1rem;
+}
+
+.package-btn__text {
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.package-btn strong {
+  font-size: 1rem;
 }
 
 .tiffin-card ul {
